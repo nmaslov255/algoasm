@@ -4,13 +4,8 @@ global _main
 
 section .text
 _main:
-    push numbers.len
-    push numbers
-    call sort
-
-    push numbers.len
-    push numbers
-    call to_ascii
+    CALLPROC sort, numbers, numbers.len
+    CALLPROC to_ascii, numbers, numbers.len
 
     PRINTF numbers, numbers.len
     PRINTF newline, 1
@@ -74,12 +69,11 @@ to_ascii:
     STACK_SAVE
 
     mov esi, [ebp+8]
-    mov edi, esi
     xor ecx, ecx
 .loop:    
     mov eax, [esi+ecx]
     add eax, 48
-    mov [edi+ecx], eax
+    mov [esi+ecx], eax
 
     add ecx, 2
     cmp ecx, [ebp+12]
